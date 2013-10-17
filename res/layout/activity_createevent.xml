@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <EditText 
+        android:id="@+id/eventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="My Event Name"/>
+    
+    <EditText
+        android:id="@+id/eventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="372dp"
+        android:hint="My Event Description" />
+    
+    <Button
+        android:id="@+id/createEventBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Create Event"
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        ></Button>"
+    
+
+</LinearLayout>

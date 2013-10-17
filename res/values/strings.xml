@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">moodstream_final</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="uploading">Uploading</string>
+    <string name="upload_failure_title">Upload Failure</string>
+    <string name="ok">OK</string>
+    <string name="browser_failure_title">Browser Failure</string>
+    
+    
+    
+
+</resources>
