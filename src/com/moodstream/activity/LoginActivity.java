@@ -68,6 +68,7 @@ public class LoginActivity extends Activity {
 				return result;
 			} catch (Exception e) {
 				// TODO: handle exception
+				Log.d(TAG,"Exception found: "+e.getMessage());
 			}
 			
 			return null;

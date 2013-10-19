@@ -132,14 +132,13 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 															new JacksonFactory(), null);
 				endpointBuilder=CloudEndpointUtils.updateBuilder(endpointBuilder);
 				
-				CollectionResponseEvent result;
+				CollectionResponseEvent result=null;
 				
 				Eventendpoint endpoint=endpointBuilder.build();
 				Log.d(TAG,"Build succeed...");
 				try {
 					Log.d(TAG,"Calling listevent");
 					result=endpoint.listEvent().execute();
-					Log.d(TAG,"Events listed..");
 				} catch (Exception e) {
 					e.printStackTrace();
 					result=null;
@@ -151,7 +150,7 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 			@Override
 			protected void onPostExecute(CollectionResponseEvent result) {
 				
-				if(!result.toString().equals("{}"))
+				if(!result.toString().equals("{}")||result!=null)
 				{
 				Log.d(TAG,"Resultset is not null: "+result.toString());
 				ListAdapter eventsListAdapter=createEventListAdapter(result.getItems());
