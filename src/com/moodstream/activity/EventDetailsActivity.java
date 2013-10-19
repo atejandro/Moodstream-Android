@@ -277,7 +277,7 @@ public class EventDetailsActivity extends Activity {
 			Photoendpoint endpoint=builder.build();
 			
 			try {
-				result=endpoint.listPhoto().execute();
+				result=endpoint.listPhoto().setEventId(selectedEvent.getKey().getId()).execute();
 				
 				/*
 				S3ObjectInputStream content = s3Client.getObject(Credentials.getPictureBucket(), <the key of the targeted file>).getObjectContent();
