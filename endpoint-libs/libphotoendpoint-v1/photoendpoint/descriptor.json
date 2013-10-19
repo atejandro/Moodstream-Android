@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/photoendpoint/v1/20131019163709/java/1.15.0-rc/moodstream.com-photoendpoint-v1-20131019163709-java-1.15.0-rc-sources.jar", 
-      "path": "moodstream.com-photoendpoint-v1-20131019163709-java-1.15.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/photoendpoint/v1/20131019175801/java/1.15.0-rc/moodstream.com-photoendpoint-v1-20131019175801-java-1.15.0-rc-sources.jar", 
+      "path": "moodstream.com-photoendpoint-v1-20131019175801-java-1.15.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2013-10-19 16:37"
+      "timestamp": "2013-10-19 17:58"
     }, 
     {
-      "path": "moodstream.com-photoendpoint-v1-20131019163709-java-1.15.0-rc.jar.properties", 
+      "path": "moodstream.com-photoendpoint-v1-20131019175801-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -702,5 +702,5 @@
   "packagePath": "model", 
   "language_version": "1.15.0-rc", 
   "id": "photoendpoint:v1", 
-  "revision": 20131019163709
+  "revision": 20131019175801
 }

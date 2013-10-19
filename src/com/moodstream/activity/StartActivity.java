@@ -138,7 +138,7 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 				Log.d(TAG,"Build succeed...");
 				try {
 					Log.d(TAG,"Calling listevent");
-					result=endpoint.listEvent().execute();
+					result=endpoint.listEvent().setNickname(currentUsr.getNickname()).execute();
 				} catch (Exception e) {
 					e.printStackTrace();
 					result=null;
@@ -150,7 +150,7 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 			@Override
 			protected void onPostExecute(CollectionResponseEvent result) {
 				
-				if(!result.toString().equals("{}")||result!=null)
+				if(!result.toString().equals("{}"))
 				{
 				Log.d(TAG,"Resultset is not null: "+result.toString());
 				ListAdapter eventsListAdapter=createEventListAdapter(result.getItems());

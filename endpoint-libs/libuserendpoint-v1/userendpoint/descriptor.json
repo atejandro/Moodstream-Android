@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/userendpoint/v1/20131019163747/java/1.15.0-rc/moodstream.com-userendpoint-v1-20131019163747-java-1.15.0-rc-sources.jar", 
-      "path": "moodstream.com-userendpoint-v1-20131019163747-java-1.15.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/userendpoint/v1/20131019175925/java/1.15.0-rc/moodstream.com-userendpoint-v1-20131019175925-java-1.15.0-rc-sources.jar", 
+      "path": "moodstream.com-userendpoint-v1-20131019175925-java-1.15.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2013-10-19 16:37"
+      "timestamp": "2013-10-19 17:59"
     }, 
     {
-      "path": "moodstream.com-userendpoint-v1-20131019163747-java-1.15.0-rc.jar.properties", 
+      "path": "moodstream.com-userendpoint-v1-20131019175925-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -702,5 +702,5 @@
   "packagePath": "model", 
   "language_version": "1.15.0-rc", 
   "id": "userendpoint:v1", 
-  "revision": 20131019163747
+  "revision": 20131019175925
 }
