@@ -112,6 +112,12 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 				CreateEventActivity.usr=currentUsr.getNickname();
 				startActivity(new Intent(this,CreateEventActivity.class));
 				return true;
+				
+			case R.id.action_add_friend:
+				Log.d(TAG,"Starting intent to AddFriendActivity...");
+				AddFriendActivity.currentUsr=currentUsr;
+				startActivity(new Intent(this,AddFriendActivity.class));
+				
 			 default:
 		            return super.onOptionsItemSelected(item);
 			}

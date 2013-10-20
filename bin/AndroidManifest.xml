@@ -44,6 +44,8 @@
         
         <activity android:name="com.moodstream.activity.CreatePhotoActivity"/>
         
+         <activity android:name="com.moodstream.activity.AddFriendActivity"/>
+        
         <service android:name=".activity.GCMIntentService"/>
         <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>

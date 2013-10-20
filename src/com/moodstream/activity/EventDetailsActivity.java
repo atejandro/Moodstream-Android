@@ -38,6 +38,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 //import com.google.api.client.util.IOUtils;
 import com.moodstream.R;
 import com.moodstream.adapter.PhotoListAdapter;
+import com.moodstream.model.eventendpoint.Eventendpoint;
 import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.photoendpoint.Photoendpoint;
 import com.moodstream.model.photoendpoint.model.CollectionResponsePhoto;
@@ -272,18 +273,17 @@ public class EventDetailsActivity extends Activity {
 			
 			Photoendpoint.Builder builder=new Photoendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
 			builder=CloudEndpointUtils.updateBuilder(builder);
-		
-			CollectionResponsePhoto result;
+			
+			
+			
+			CollectionResponsePhoto result=null;
 			Photoendpoint endpoint=builder.build();
+			
 			
 			try {
 				result=endpoint.listPhoto().setEventId(selectedEvent.getKey().getId()).execute();
+			
 				
-				/*
-				S3ObjectInputStream content = s3Client.getObject(Credentials.getPictureBucket(), <the key of the targeted file>).getObjectContent();
-				byte[] bytes = IOUtils.toByteArray(content);
-				Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-				*/
 			} catch (Exception e) {
 				e.printStackTrace();
 				result =null;
@@ -300,59 +300,8 @@ public class EventDetailsActivity extends Activity {
 			adapter=new PhotoListAdapter(EventDetailsActivity.this, result.getItems());
 			photoList.setAdapter(adapter);
 			
-			/*ListAdapter photosListAdapter=createPhotoListAdapter(result.getItems());
-			photoList.setAdapter(photosListAdapter);
-			Log.d(TAG,"Photo list adapter settled");
-			photos=result.getItems();*/
-			
 		}
-		
-		/**
-		 * Populate a List Adapter with the data
-		 * */
-		private ListAdapter createPhotoListAdapter(List<Photo> photos) {
-			
-		    List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		    
-		    for(Photo photo:photos){
-		    	Map<String,Object> map=new HashMap<String, Object>();
-		    	//TODO: Change the ic_launcher icon
-		    	map.put("takenBy", photo.getOwnerNickname());
-		    	map.put("description",photo.getCaption() );
-		    	map.put("uploadTime",photo.getUploadTime() );
-		    	map.put("blob", new FetchBlobTask().execute(selectedEvent.getKey().getId()+"/"+photo.getBlobPath()));
-		    	data.add(map);
-		    }
-		    
-		    SimpleAdapter adapter=new SimpleAdapter(EventDetailsActivity.this,data,R.layout.item_eventphoto,
-		    						new String[]{"takenBy","description","uploadTime","blob"},
-		    						new int[]{R.id.photo_taken_by,R.id.photo_description,R.id.photo_upload_time,R.id.event_photo});
-		    
-			return adapter;
-		}
-		
-		
-		
-		private class FetchBlobTask extends AsyncTask<String, Void, Bitmap>
-		{
-
-			@Override
-			protected Bitmap doInBackground(String... path) {
-				
-				Bitmap bitmap=null;
-				
-				try {
-					S3ObjectInputStream content = s3Client.getObject(Credentials.getPictureBucket(),path[0]).getObjectContent();
-					byte[] bytes = IOUtils.toByteArray(content);
-					bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}		
-				return bitmap;
-			}
-			
-		}
+	
 		
 	}
 }

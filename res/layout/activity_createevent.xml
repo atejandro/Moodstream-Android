@@ -13,17 +13,26 @@
     <EditText
         android:id="@+id/eventDescription"
         android:layout_width="match_parent"
-        android:layout_height="372dp"
+        android:layout_height="wrap_content"
         android:hint="My Event Description" />
+    
+    <Button
+        android:id="@+id/inviteFriendsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite Friends"
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        ></Button>
     
     <Button
         android:id="@+id/createEventBtn"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="Create Event"
         android:gravity="center_vertical"
         android:layout_gravity="center"
-        ></Button>"
+        ></Button>
     
 
 </LinearLayout>
