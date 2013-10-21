@@ -210,7 +210,7 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 		     // Toast.makeText(getApplicationContext(), "Event "+selectedEvent.getEventName()+"selected", 3000).show();
 		        
 		      EventDetailsActivity.selectedEvent = selectedEvent;
-		      EventDetailsActivity.usrNickname=currentUsr.getNickname();
+		      EventDetailsActivity.currentUsr=currentUsr;
 		      startActivity(new Intent(StartActivity.this,EventDetailsActivity.class));
 		      }
 		  };

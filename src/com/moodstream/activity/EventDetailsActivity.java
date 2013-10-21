@@ -22,6 +22,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +46,7 @@ import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.photoendpoint.Photoendpoint;
 import com.moodstream.model.photoendpoint.model.CollectionResponsePhoto;
 import com.moodstream.model.photoendpoint.model.Photo;
+import com.moodstream.model.userendpoint.model.User;
 import com.moodstream.util.Credentials;
 
 public class EventDetailsActivity extends Activity {
@@ -55,7 +59,7 @@ public class EventDetailsActivity extends Activity {
 											Credentials.SECRET_KEY));
 	
 	protected static Event selectedEvent;
-	protected static String usrNickname;
+	protected static User currentUsr;
 	
 	private static final int ACTION_TAKE_PHOTO=1;//Take a big photo
 	private boolean isCheckedIn=false;
@@ -118,6 +122,38 @@ public class EventDetailsActivity extends Activity {
 		CreatePhotoActivity.photoFile=null;	
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		if(selectedEvent.getCreator().equals(currentUsr.getNickname()))
+		{
+		MenuInflater inflater =getMenuInflater();
+		inflater.inflate(R.menu.menu_eventdetails, menu);
+		}
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId())
+		{
+			case R.id.action_invite_friend:
+				AddFriendActivity.currentUsr=currentUsr;
+				AddFriendActivity.event=selectedEvent;
+				AddFriendActivity.inviteFriend=true;
+				Log.d(TAG,"Calling invite friend intent...");
+				startActivity(new Intent(this,AddFriendActivity.class));
+				break;
+				
+			case R.id.action_update_event:
+				Log.d(TAG,"Calling update event intent...");
+				break;
+		}
+		return true;
+	}
+	
 	
 	@Override
 	protected void onResume() {
@@ -129,23 +165,16 @@ public class EventDetailsActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
-		
-		
 		switch (requestCode) {
 		case ACTION_TAKE_PHOTO:
 			if(resultCode==RESULT_OK)
-			{ 
-			   
+			{  
 				if(CreatePhotoActivity.mCurrentPhotoPath!=null && CreatePhotoActivity.photoFile!=null)
 				 startActivity(new Intent(this,CreatePhotoActivity.class));
 			}
 			else
-			{
-				Log.d(TAG,"The path or the File are null");
-			}
-				
+				Log.d(TAG,"The path or the File are null");	
 			break;
-
 		}
 	}
 	
@@ -182,7 +211,7 @@ public class EventDetailsActivity extends Activity {
 				CreatePhotoActivity.photoFile =mPhotoFile;
 				CreatePhotoActivity.mCurrentPhotoPath = CreatePhotoActivity.photoFile.getAbsolutePath();
 				CreatePhotoActivity.eventId=selectedEvent.getKey().getId();
-				CreatePhotoActivity.usrNickname=usrNickname;
+				CreatePhotoActivity.usrNickname=currentUsr.getNickname();
 				
 				//Set extra parameters into the intent
 				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(CreatePhotoActivity.photoFile));

@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/messageEndpoint/v1/20131019175950/java/1.15.0-rc/moodstream.com-messageEndpoint-v1-20131019175950-java-1.15.0-rc-sources.jar", 
-      "path": "moodstream.com-messageEndpoint-v1-20131019175950-java-1.15.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/messageEndpoint/v1/20131020221000/java/1.15.0-rc/moodstream.com-messageEndpoint-v1-20131020221000-java-1.15.0-rc-sources.jar", 
+      "path": "moodstream.com-messageEndpoint-v1-20131020221000-java-1.15.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2013-10-19 17:59"
+      "timestamp": "2013-10-20 22:10"
     }, 
     {
-      "path": "moodstream.com-messageEndpoint-v1-20131019175950-java-1.15.0-rc.jar.properties", 
+      "path": "moodstream.com-messageEndpoint-v1-20131020221000-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.15.0-rc", 
   "id": "messageEndpoint:v1", 
-  "revision": 20131019175950
+  "revision": 20131020221000
 }
