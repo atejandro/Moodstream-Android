@@ -3,19 +3,12 @@ package com.moodstream.activity;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,26 +21,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 //import com.google.api.client.util.IOUtils;
 import com.moodstream.R;
 import com.moodstream.adapter.PhotoListAdapter;
-import com.moodstream.model.eventendpoint.Eventendpoint;
 import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.photoendpoint.Photoendpoint;
 import com.moodstream.model.photoendpoint.model.CollectionResponsePhoto;
 import com.moodstream.model.photoendpoint.model.Photo;
 import com.moodstream.model.userendpoint.model.User;
-import com.moodstream.util.Credentials;
+import com.moodstream.util.AWSUtils;
 
 public class EventDetailsActivity extends Activity {
 	
@@ -55,8 +44,8 @@ public class EventDetailsActivity extends Activity {
 	
 	//AWS S3 initialization
    private AmazonS3Client s3Client = new AmazonS3Client(
-					new BasicAWSCredentials(Credentials.ACCESS_KEY_ID,
-											Credentials.SECRET_KEY));
+					new BasicAWSCredentials(AWSUtils.ACCESS_KEY_ID,
+											AWSUtils.SECRET_KEY));
 	
 	protected static Event selectedEvent;
 	protected static User currentUsr;

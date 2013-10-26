@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/eventendpoint/v1/20131020221026/java/1.15.0-rc/moodstream.com-eventendpoint-v1-20131020221026-java-1.15.0-rc-sources.jar", 
-      "path": "moodstream.com-eventendpoint-v1-20131020221026-java-1.15.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/eventendpoint/v1/20131025011600/java/1.15.0-rc/moodstream.com-eventendpoint-v1-20131025011600-java-1.15.0-rc-sources.jar", 
+      "path": "moodstream.com-eventendpoint-v1-20131025011600-java-1.15.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2013-10-20 22:10"
+      "timestamp": "2013-10-25 01:16"
     }, 
     {
-      "path": "moodstream.com-eventendpoint-v1-20131020221026-java-1.15.0-rc.jar.properties", 
+      "path": "moodstream.com-eventendpoint-v1-20131025011600-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -702,5 +702,5 @@
   "packagePath": "model", 
   "language_version": "1.15.0-rc", 
   "id": "eventendpoint:v1", 
-  "revision": 20131020221026
+  "revision": 20131025011600
 }

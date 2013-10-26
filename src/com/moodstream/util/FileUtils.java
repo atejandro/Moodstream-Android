@@ -3,7 +3,7 @@ package com.moodstream.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Utils {
+public class FileUtils {
 	
 	/**
 	 * Copies the input stream into the outputstream to create a file

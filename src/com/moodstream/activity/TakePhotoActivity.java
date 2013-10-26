@@ -33,7 +33,7 @@ import com.moodstream.R;
 import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.photoendpoint.model.Photo;
 import com.moodstream.model.userendpoint.model.User;
-import com.moodstream.util.Credentials;
+import com.moodstream.util.AWSUtils;
 
 public class TakePhotoActivity extends Activity {
 	//REFERENCES TO PREVIOUS ACTIVITY
@@ -43,8 +43,8 @@ public class TakePhotoActivity extends Activity {
 		
 		//AWS S3 initialization
 		private AmazonS3Client s3Client = new AmazonS3Client(
-				new BasicAWSCredentials(Credentials.ACCESS_KEY_ID,
-						Credentials.SECRET_KEY));
+				new BasicAWSCredentials(AWSUtils.ACCESS_KEY_ID,
+						AWSUtils.SECRET_KEY));
 		
 
 		//ATTRIBUTES
@@ -384,7 +384,7 @@ public class TakePhotoActivity extends Activity {
 					
 					// Content type is determined by file extension.
 					PutObjectRequest por = new PutObjectRequest(
-							Credentials.getPictureBucket(), 
+							AWSUtils.getPictureBucket(), 
 							"events/"+photoFile.getName(),
 							photoFile)
 					.withCannedAcl(CannedAccessControlList.PublicRead);
@@ -432,7 +432,7 @@ public class TakePhotoActivity extends Activity {
 						Date expirationDate = new Date(
 								System.currentTimeMillis() + 3600000);
 						GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(
-								Credentials.getPictureBucket(), photoFile.getName());
+								AWSUtils.getPictureBucket(), photoFile.getName());
 						urlRequest.setExpiration(expirationDate);
 						urlRequest.setResponseHeaders(override);
 				

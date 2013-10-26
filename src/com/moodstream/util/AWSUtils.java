@@ -1,6 +1,6 @@
 package com.moodstream.util;
 
-public class Credentials {
+public class AWSUtils {
 public static final String AUDIENCE="server:client_id:295173411808-0rihfll869kme3o6kpl3llc2dk13gp25.apps.googleusercontent.com";
 	
 	//AWS S3 CREDENTIALS & CONSTANTS

@@ -108,14 +108,14 @@ public class PhotoImageLoader {
 	           Bitmap bitmap=null;
 	            
 	           AmazonS3 s3Client = new AmazonS3Client(
-						new BasicAWSCredentials(Credentials.ACCESS_KEY_ID,
-												Credentials.SECRET_KEY));
+						new BasicAWSCredentials(AWSUtils.ACCESS_KEY_ID,
+												AWSUtils.SECRET_KEY));
 	           
-	            S3Object object =s3Client.getObject(Credentials.getPictureBucket(),url);
+	            S3Object object =s3Client.getObject(AWSUtils.getPictureBucket(),url);
 	            
 	            InputStream is=object.getObjectContent(); 
 	            OutputStream os = new FileOutputStream(f);
-	            Utils.CopyStream(is, os);
+	            FileUtils.CopyStream(is, os);
 	            os.close();
 	            bitmap = decodeFile(f);
 	            return bitmap;

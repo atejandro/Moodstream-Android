@@ -1,16 +1,16 @@
 package com.moodstream.activity;
 
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.googleapis.services.AbstractGoogleClient;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.googleapis.services.AbstractGoogleClient;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 /**
  * Common utilities for working with Cloud Endpoints.
@@ -31,7 +31,7 @@ public class CloudEndpointUtils {
    * http://developers.google.com/eclipse/docs/cloud_endpoints for more
    * information.
    */
-  protected static final boolean LOCAL_ANDROID_RUN = true;
+  protected static final boolean LOCAL_ANDROID_RUN = false	;
 
   /*
    * The root URL of where your DevAppServer is running (if you're running the

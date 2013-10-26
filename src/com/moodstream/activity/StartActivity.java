@@ -6,15 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -23,6 +19,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.moodstream.R;
@@ -32,7 +32,7 @@ import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.userendpoint.model.User;
 import com.moodstream.util.TabsAdapter;
 
-public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
+public class StartActivity extends /*SherlockFragmentActivity*/ SherlockActivity{
 	
 		private static final String TAG="StartActivity";
 	
@@ -97,13 +97,13 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
 			// TODO Auto-generated method stub
-			MenuInflater inflater =getMenuInflater();
+			MenuInflater inflater =getSupportMenuInflater();
 			inflater.inflate(R.menu.main, menu);
 			return super.onCreateOptionsMenu(menu);
 		}
 		
 		
-		public boolean onOptionsItemSelected(MenuItem item) {
+		public boolean 	onOptionsItemSelected(MenuItem item) {
 			
 			switch(item.getItemId())
 			{
@@ -181,6 +181,7 @@ public class StartActivity extends /*SherlockFragmentActivity*/ Activity{
 				final double kilometersInAMile = 1.60934;
 			    List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 			    
+			    if(events!=null)
 			    for(Event event:events){
 			    	Map<String,Object> map=new HashMap<String, Object>();
 			    	//TODO: Change the ic_launcher icon

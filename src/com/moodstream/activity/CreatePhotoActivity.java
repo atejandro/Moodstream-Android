@@ -1,7 +1,6 @@
 package com.moodstream.activity;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -17,7 +16,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +34,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.moodstream.R;
 import com.moodstream.model.photoendpoint.Photoendpoint;
 import com.moodstream.model.photoendpoint.model.Photo;
-import com.moodstream.util.Credentials;
+import com.moodstream.util.AWSUtils;
 
 public class CreatePhotoActivity extends Activity {
 	
@@ -44,8 +42,8 @@ public class CreatePhotoActivity extends Activity {
 	
 	   //AWS S3 initialization
 	   private AmazonS3Client s3Client = new AmazonS3Client(
-						new BasicAWSCredentials(Credentials.ACCESS_KEY_ID,
-												Credentials.SECRET_KEY));
+						new BasicAWSCredentials(AWSUtils.ACCESS_KEY_ID,
+												AWSUtils.SECRET_KEY));
 	
 	   protected static String mCurrentPhotoPath;
 	   
@@ -274,7 +272,7 @@ public class CreatePhotoActivity extends Activity {
 		private void putFileToS3(File file)
 		{
 			PutObjectRequest por = new PutObjectRequest(
-					Credentials.getPictureBucket(), 
+					AWSUtils.getPictureBucket(), 
 				            photoFile.getName(),
 					photoFile)
 			.withCannedAcl(CannedAccessControlList.PublicRead);
@@ -335,7 +333,7 @@ public class CreatePhotoActivity extends Activity {
 					try {
 						//Upload thumb to S3
 						//Log.d(TAG,"Uploading thumbnail to S3...");
-						PutObjectRequest por = new PutObjectRequest(Credentials.getPictureBucket(), eventId+"/"+photoFile.getName(),photoFile)
+						PutObjectRequest por = new PutObjectRequest(AWSUtils.getPictureBucket(), eventId+"/"+photoFile.getName(),photoFile)
 						.withCannedAcl(CannedAccessControlList.PublicRead);
 						
 						s3Client.putObject(por);

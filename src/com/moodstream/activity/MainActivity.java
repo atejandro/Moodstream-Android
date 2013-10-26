@@ -22,6 +22,7 @@ import com.moodstream.R;
  */
 public class MainActivity extends Activity {
 	
+	
 	private Button login_btn;
 	private Button register_btn;
 	
