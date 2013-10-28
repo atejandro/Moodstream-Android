@@ -1,11 +1,7 @@
 package com.moodstream.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
+import java.util.Calendar;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -16,17 +12,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -57,11 +52,11 @@ import com.moodstream.R;
 import com.moodstream.model.eventendpoint.Eventendpoint;
 import com.moodstream.model.eventendpoint.model.Event;
 import com.moodstream.model.eventendpoint.model.GeoPt;
-import com.moodstream.util.DateTimePickerDialog;
+import com.moodstream.util.DateUtils;
 import com.moodstream.util.LocationUtils;
 
 public class CreateEventActivity extends SherlockActivity implements
-		OnMapLongClickListener, LocationListener,
+		OnClickListener, OnMapLongClickListener, LocationListener,
 		GooglePlayServicesClient.ConnectionCallbacks,
 		GooglePlayServicesClient.OnConnectionFailedListener {
 
@@ -69,6 +64,10 @@ public class CreateEventActivity extends SherlockActivity implements
 	// ATTRIBUTES___________________________________________________________________
 	// **DEBUG**//
 	private static final String TAG = "CreateEventActivity";
+	public static final int START_DATE = 1;
+	public static final int FINISH_DATE = 2;
+	public static final String START_DATE_FORMAT = "dd/MM/yyyy-h:mm a";
+	public static final String FINISH_DATE_FORMAT = "h:mm a";
 
 	// **FROM OTHER ACTIVITIES**//
 	protected static String usr;// From StartActivity
@@ -79,7 +78,8 @@ public class CreateEventActivity extends SherlockActivity implements
 	// **GUI**//
 	private EditText eventName;
 	private EditText eventDescription;
-	private Button inviteFriendsBtn;
+	private EditText start_date;
+	private EditText finish_date;
 	private Button createEventBtn;
 	private MapView mMapview;
 
@@ -96,34 +96,61 @@ public class CreateEventActivity extends SherlockActivity implements
 	private Marker marker = null;
 	private CircleOptions circleOption;
 	private Circle circle;
-	//Dates
+	// Dates
 	private DateTime start;
-	private Date end;
+	private DateTime end;
 
 	// _____________________________________________________________________________
-	// LISTENERS____________________________________________________________________
-	private OnClickListener createEventListener = new OnClickListener() {
+	// ONCLICK_LISTENERS____________________________________________________________
 
-		@Override
-		public void onClick(View v) {
-
-			// Execute Async Task to Create event
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.createEventBtn:
 			new CreateEventTask().execute();
 			finish();
+			break;
 
+		default:
+			break;
 		}
-	};
+
+	}
 
 	private OnClickListener inviteFriendsListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			Log.d(TAG,"Opening dialog...");
-			showDateTimeDialog();
-			Log.d(TAG,"Dialog opened...");
-			
+			Log.d(TAG, "Opening dialog...");
+			// showDateTimeDialog();
+			Log.d(TAG, "Dialog opened...");
+
 		}
 
+	};
+
+	private OnTouchListener dateListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+
+			switch (v.getId()) {
+			case R.id.start_date:
+				if (event.getAction() == MotionEvent.ACTION_DOWN)
+					showDateTimeDialog(START_DATE);
+				return true;
+
+			case R.id.finish_date:
+				if (event.getAction() == MotionEvent.ACTION_DOWN)
+					showDateTimeDialog(FINISH_DATE);
+				return true;
+			default:
+				break;
+
+			}
+
+			return false;
+		}
 	};
 
 	// _____________________________________________________________________________
@@ -139,10 +166,12 @@ public class CreateEventActivity extends SherlockActivity implements
 		// Set UI elements
 		eventName = (EditText) findViewById(R.id.eventName);
 		eventDescription = (EditText) findViewById(R.id.eventDescription);
-		inviteFriendsBtn = (Button) findViewById(R.id.inviteFriendsBtn);
-		inviteFriendsBtn.setOnClickListener(inviteFriendsListener);
+		start_date = (EditText) findViewById(R.id.start_date);
+		start_date.setOnTouchListener(dateListener);
+		finish_date = (EditText) findViewById(R.id.finish_date);
+		finish_date.setOnTouchListener(dateListener);
 		createEventBtn = (Button) findViewById(R.id.createEventBtn);
-		createEventBtn.setOnClickListener(createEventListener);
+		createEventBtn.setOnClickListener(this);
 		mMapview = (MapView) findViewById(R.id.mapView);
 		mMapview.onCreate(savedInstanceState);
 
@@ -230,14 +259,14 @@ public class CreateEventActivity extends SherlockActivity implements
 			case Activity.RESULT_OK:
 
 				// Log the result
-				Log.d(LocationUtils.APPTAG, "RESOLVED");
+				Log.d(LocationUtils.TAG, "RESOLVED");
 
 				break;
 
 			// If any other result was returned by Google Play services
 			default:
 				// Log the result
-				Log.d(LocationUtils.APPTAG, "NO RESOLUTION");
+				Log.d(LocationUtils.TAG, "NO RESOLUTION");
 
 				break;
 			}
@@ -245,7 +274,7 @@ public class CreateEventActivity extends SherlockActivity implements
 			// If any other request code was received
 		default:
 			// Report that this Activity received an unknown requestCode
-			Log.d(LocationUtils.APPTAG, "UNKNOWN ACTIVITY REQUEST CODE");
+			Log.d(LocationUtils.TAG, "UNKNOWN ACTIVITY REQUEST CODE");
 
 			break;
 		}
@@ -272,31 +301,7 @@ public class CreateEventActivity extends SherlockActivity implements
 		// marker.setSnippet(getAddress(point));
 	}
 
-	private String getAddress(LatLng point) {
-		String address = "";
-		Geocoder geocoder;
-		List<Address> addresses = null;
 
-		geocoder = new Geocoder(this, Locale.getDefault());
-
-		try {
-			addresses = geocoder.getFromLocation(point.latitude,
-					point.longitude, 1);
-			address = addresses.get(0).getAddressLine(0);
-			String city = addresses.get(0).getAddressLine(1);
-			String country = addresses.get(0).getCountryName();
-			address = Html.fromHtml(address + "<br>" + city + "<br>" + country)
-					.toString();
-
-			Log.d("CLAAAAAS", address);
-			return address;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			Log.d("CLAAAAAS", "Address couldnt be found");
-			return "";
-		}
-	}
 
 	// **LocationListener**//
 	@Override
@@ -328,7 +333,6 @@ public class CreateEventActivity extends SherlockActivity implements
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
-
 	}
 
 	// **GooglePlayServicesClient.OnConnectionFailedListener**//
@@ -377,8 +381,8 @@ public class CreateEventActivity extends SherlockActivity implements
 	 */
 	public void getCurrentLocation() {
 		// If Google Play Services is available
-		if (servicesConnected()) 
-			mCurrentLocation = mLocationClient.getLastLocation();	
+		if (servicesConnected())
+			mCurrentLocation = mLocationClient.getLastLocation();
 	}
 
 	/**
@@ -403,7 +407,7 @@ public class CreateEventActivity extends SherlockActivity implements
 	/**
 	 * Pops up the dialog containing the datetime picker
 	 */
-	private void showDateTimeDialog() {
+	private void showDateTimeDialog(final int dateInput) {
 
 		// Inflate a view to assign to the AlertDialog
 		View view = LayoutInflater.from(this).inflate(
@@ -423,26 +427,50 @@ public class CreateEventActivity extends SherlockActivity implements
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.d(TAG, "Date saved");
-				
-				Calendar cal=Calendar.getInstance();
-				cal.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
-				start=new DateTime(cal.getTime());
-				Log.d(TAG,getDateFormatString("dd/MM/yyyy - h:mm a"));
+
+				Calendar cal = Calendar.getInstance();
+				cal.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(),
+						tp.getCurrentHour(), tp.getCurrentMinute());
+
+				switch (dateInput) {
+				case START_DATE:
+					start = new DateTime(cal.getTime());
+					start_date.setText(DateUtils.getDateFormatString(DateUtils.DATE_FORMAT,start));
+					break;
+
+				case FINISH_DATE:
+					end = new DateTime(cal.getTime());
+					finish_date
+							.setText(DateUtils.getDateFormatString(DateUtils.HOUR_FORMAT,end));
+					break;
+				}
+
 				dialog.dismiss();
 			}
 		});
-		
 		dialog.create().show();
 	}
-	
-	
-	@SuppressLint("SimpleDateFormat")
-	private String getDateFormatString(String format)
-	{
-		Date date=new Date(start.getValue());
-		SimpleDateFormat formatter = new SimpleDateFormat(format);
-	    String dateString = formatter.format(date);
-	    return dateString;
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@SuppressLint("NewApi")
+	private void showErrorDialog(int errorCode) {
+
+		// Get the error dialog from Google Play services
+		Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode,
+				this, LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+		// If Google Play services can provide an error dialog
+		if (errorDialog != null) {
+
+			// Create a new DialogFragment in which to show the error dialog
+			ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+
+			// Set the dialog in the DialogFragment
+			errorFragment.setDialog(errorDialog);
+
+			// Show the error dialog in the DialogFragment
+			errorFragment.show(getFragmentManager(), LocationUtils.TAG);
+		}
 	}
 
 	
@@ -502,12 +530,7 @@ public class CreateEventActivity extends SherlockActivity implements
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Log.d(TAG, "Starting to create event");
-			// Calendar to create Date format
-			Calendar calendar = Calendar.getInstance();
-			//DateTime date = new DateTime(calendar.getTime());
 
-			// TODO: Get current location. Getting constant location meanwhile.
 			GeoPt gpt = new GeoPt();
 			gpt.setLatitude((float) eventLocation.latitude);
 			gpt.setLongitude((float) eventLocation.longitude);
@@ -544,31 +567,8 @@ public class CreateEventActivity extends SherlockActivity implements
 
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	@SuppressLint("NewApi")
-	private void showErrorDialog(int errorCode) {
-
-		// Get the error dialog from Google Play services
-		Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode,
-				this, LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-		// If Google Play services can provide an error dialog
-		if (errorDialog != null) {
-
-			// Create a new DialogFragment in which to show the error dialog
-			ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-
-			// Set the dialog in the DialogFragment
-			errorFragment.setDialog(errorDialog);
-
-			// Show the error dialog in the DialogFragment
-			errorFragment.show(getFragmentManager(), LocationUtils.APPTAG);
-		}
-	}
-
 	// _____________________________________________________________________________
-	// ERROR DIALOG
-	// CLASS___________________________________________________________
+	// ERROR_DIALOG_CLASS___________________________________________________________
 	/**
 	 * Define a DialogFragment to display the error dialog generated in
 	 * showErrorDialog.

@@ -5,15 +5,19 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 //import com.google.api.client.util.IOUtils;
@@ -37,6 +42,8 @@ import com.moodstream.model.photoendpoint.model.CollectionResponsePhoto;
 import com.moodstream.model.photoendpoint.model.Photo;
 import com.moodstream.model.userendpoint.model.User;
 import com.moodstream.util.AWSUtils;
+import com.moodstream.util.DateUtils;
+import com.moodstream.util.LocationUtils;
 
 public class EventDetailsActivity extends Activity {
 	
@@ -57,8 +64,7 @@ public class EventDetailsActivity extends Activity {
 	private TextView detail_event_name;
 	private TextView detail_event_invitees;
 	private TextView detail_event_date;
-	private TextView detail_event_lat;
-	private TextView detail_event_lng;
+	private TextView detail_event_address;
 	private Button take_photo_btn;
 	
 	//ListView
@@ -77,7 +83,6 @@ public class EventDetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_details);
 		
-		
 		//Set views
 		detail_event_name=(TextView)findViewById(R.id.detail_event_name);
 		detail_event_name.setText(selectedEvent.getEventName());
@@ -88,24 +93,20 @@ public class EventDetailsActivity extends Activity {
 		else
 			detail_event_invitees.setText("Invited: "+selectedEvent.getInvitees().size());
 		
-		detail_event_lat=(TextView)findViewById(R.id.detail_event_lat);
-		detail_event_lat.setText("Lat: "+selectedEvent.getLocation().getLatitude());
+		LatLng point=new LatLng(selectedEvent.getLocation().getLatitude(), selectedEvent.getLocation().getLongitude());
 		
-		detail_event_lng=(TextView)findViewById(R.id.detail_event_lng);
-		detail_event_lng.setText("Lng: "+selectedEvent.getLocation().getLongitude());
+		detail_event_address=(TextView)findViewById(R.id.detail_event_address);
+		detail_event_address.setText(LocationUtils.getAddress(this,point));
 		
 		detail_event_date=(TextView)findViewById(R.id.detail_event_date);
-		detail_event_date.setText("Date: "+selectedEvent.getDate());
+		detail_event_date.setText("Date: "+DateUtils.getDateFormatString(DateUtils.DATE_FORMAT,selectedEvent.getDate()));
 		
 		take_photo_btn=(Button)findViewById(R.id.take_photo_btn);
 		setButtonListeners();
 		
 		photoList=(ListView)findViewById(R.id.photosList);
 		
-		//TODO Call ListEventPhotosTask
 		new ListEventPhotoTask().execute();
-		
-		//TODO setOnItemClickListener
 		
 		mPhotoFile=null;
 		CreatePhotoActivity.photoFile=null;	
@@ -277,7 +278,7 @@ public class EventDetailsActivity extends Activity {
 		
 		return storageDir;
 	}
-	
+
 	
 	//--------------------------------------------------------------------------------------------//
 	//                                      ASYNC TASKS                                           //

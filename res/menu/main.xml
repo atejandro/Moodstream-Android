@@ -8,12 +8,6 @@
         />
     
     <item 
-        android:id="@+id/action_search"
-        android:orderInCategory="1"
-        android:icon="@drawable/action_search"
-        android:showAsAction="ifRoom"/>
-    
-    <item 
         android:id="@+id/action_create"
         android:orderInCategory="2"
         android:icon="@drawable/content_new_event"

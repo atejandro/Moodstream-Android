@@ -3,42 +3,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <EditText 
+
+    <EditText
         android:id="@+id/eventName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="My Event Name"/>
-    
+        android:hint="My Event Name" />
+
     <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp" 
-            />
-    
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+         />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/start_date"
+            android:inputType="datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Start Date" />
+
+        <EditText
+            android:id="@+id/finish_date"
+            android:inputType="datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Finish Date" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/eventDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="4"
+        android:scrollbars="vertical"
         android:hint="My Event Description" />
-    
-    <Button
-        android:id="@+id/inviteFriendsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invite Friends"
-        android:gravity="center_vertical"
-        android:layout_gravity="center"
-        ></Button>
-    
+
     <Button
         android:id="@+id/createEventBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Event"
-        android:gravity="center_vertical"
         android:layout_gravity="center"
-        ></Button>
-    
+        android:text="Create Event" >
+    </Button>
 
 </LinearLayout>
