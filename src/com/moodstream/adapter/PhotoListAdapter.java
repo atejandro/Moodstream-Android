@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.moodstream.R;
 import com.moodstream.model.photoendpoint.model.Photo;
+import com.moodstream.util.DateUtils;
 import com.moodstream.util.PhotoImageLoader;
 
 public class PhotoListAdapter extends BaseAdapter {
@@ -64,7 +65,7 @@ public class PhotoListAdapter extends BaseAdapter {
 	        photo_description.setText(photos.get(position).getCaption());
 	        
 	        TextView photo_upload_time=(TextView)vi.findViewById(R.id.photo_upload_time);
-	        photo_upload_time.setText(""+photos.get(position).getUploadTime());
+	        photo_upload_time.setText(DateUtils.getTimeDifference(photos.get(position).getUploadTime()));
 	        
 	        ImageView image=(ImageView)vi.findViewById(R.id.event_photo);
 	        String path=photos.get(position).getEventId()+"/"+photos.get(position).getBlobPath();
