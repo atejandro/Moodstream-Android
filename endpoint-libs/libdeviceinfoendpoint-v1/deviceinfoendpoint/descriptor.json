@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/deviceinfoendpoint/v1/20131025011507/java/1.15.0-rc/moodstream.com-deviceinfoendpoint-v1-20131025011507-java-1.15.0-rc-sources.jar", 
-      "path": "moodstream.com-deviceinfoendpoint-v1-20131025011507-java-1.15.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/deviceinfoendpoint/v1/20131031013203/java/1.15.0-rc/moodstream.com-deviceinfoendpoint-v1-20131031013203-java-1.15.0-rc-sources.jar", 
+      "path": "moodstream.com-deviceinfoendpoint-v1-20131031013203-java-1.15.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2013-10-25 01:15"
+      "timestamp": "2013-10-31 01:32"
     }, 
     {
-      "path": "moodstream.com-deviceinfoendpoint-v1-20131025011507-java-1.15.0-rc.jar.properties", 
+      "path": "moodstream.com-deviceinfoendpoint-v1-20131031013203-java-1.15.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.15.0-rc", 
   "id": "deviceinfoendpoint:v1", 
-  "revision": 20131025011507
+  "revision": 20131031013203
 }
